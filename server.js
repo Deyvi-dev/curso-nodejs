@@ -33,7 +33,6 @@ app.post("/users", async (req, res) =>{
 
 app.get("/users/:id", async(req, res) =>{
     const {id} = req.params
-    console.log(req.params)
     try{
      const user = await prisma.user.findFirst({
         where: {id: Number(id)}
@@ -44,6 +43,18 @@ app.get("/users/:id", async(req, res) =>{
     }
 })
 
+app.delete("/users/:id", async (req, res)=>{
+    const {id} = req.params
+
+    try{
+       await prisma.user.delete({
+        where: {id:  Number(id)}
+       }) 
+       res.status(200).json({message: "usuario deletado com sucesso"})
+    }catch{
+        res.status(500).json({message: "erro ao deletar o usuario"})
+    }       
+})
 app.listen(port, () => {
   console.log(`servidor online na porta http://localhost:${port}`);
 });

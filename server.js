@@ -55,6 +55,21 @@ app.delete("/users/:id", async (req, res)=>{
         res.status(500).json({message: "erro ao deletar o usuario"})
     }       
 })
+
+app.put("/users", async (req, res)=>{
+    const {name, useId}  = req.body
+    try{
+     const user = await  prisma.user.update({
+        where: {id: useId},
+        data:{
+            name: name
+        }
+     })
+     res.status(200).json(user)
+    } catch{
+        res.status(500).json({message: "erro ao atualziar o usuario"})
+    }
+})
 app.listen(port, () => {
   console.log(`servidor online na porta http://localhost:${port}`);
 });

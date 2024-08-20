@@ -31,6 +31,18 @@ app.post("/users", async (req, res) =>{
     }
 })
 
+app.get("/users/:id", async(req, res) =>{
+    const {id} = req.params
+    console.log(req.params)
+    try{
+     const user = await prisma.user.findFirst({
+        where: {id: Number(id)}
+     })
+     res.status(200).json(user)
+    }catch(error){
+    res.status(400).json({message: "erro ao obter usuario"})
+    }
+})
 
 app.listen(port, () => {
   console.log(`servidor online na porta http://localhost:${port}`);
